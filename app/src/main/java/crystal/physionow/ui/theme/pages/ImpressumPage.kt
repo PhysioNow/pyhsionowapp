@@ -24,7 +24,7 @@ fun ImpressumPage() {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "An Android Application developed by Jannik Wappler \nSternenwinkel 5\n04821 Brandis\nDeutschland\nTel: +49 176 51079224\nGeschäftsführer: Jannik Wappler",
+                    text = "An Android Application developed by Jannik Wappler \nSternenwinkel 5\n04821 Brandis\nDeutschland\nTel: +49 176 51079224\nGeschäftsführer: Jannik Wappler\n \n© Copyright by Jannik Wappler",
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(16.dp)
                 )

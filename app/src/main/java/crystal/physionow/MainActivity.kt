@@ -62,7 +62,7 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
             SettingsPage(navController)
         }
         composable("impressum") {
-            ImpressumPage()  // Impressum-Seite
+            ImpressumPage()
         }
         composable("searchExercises") {
             SearchExercisesPage()  // Deine neue Seite für die Suche nach Übungen
@@ -103,7 +103,7 @@ fun Greeting(name: String, navController: NavHostController, modifier: Modifier 
                 },
                 modifier = Modifier.padding(top = 16.dp)
             ) {
-                Text("Suche nach Übungen")  // Ein einladender Button
+                Text("Suche nach Übungen")
             }
         }
     }
