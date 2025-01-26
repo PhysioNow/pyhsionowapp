@@ -32,7 +32,7 @@ fun SearchExercisesPage(modifier: Modifier = Modifier) {
             OutlinedTextField(
                 value = query,
                 onValueChange = { query = it },
-                label = { Text("Gib eine Übung ein") },
+                label = { Text("Gib hier ein, was du üben willst") },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -42,7 +42,7 @@ fun SearchExercisesPage(modifier: Modifier = Modifier) {
                 onClick = { /* Deine Aktion hier, z.B. Suche nach Übungen */ },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Suchen")
+                Text("Suchen (Frage Gemini)")
             }
         }
     }
