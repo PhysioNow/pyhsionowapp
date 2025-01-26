@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "physionow"
 include(":app")
+include(":physionow")
