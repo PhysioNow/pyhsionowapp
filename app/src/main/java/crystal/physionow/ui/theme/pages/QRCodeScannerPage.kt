@@ -25,12 +25,12 @@ fun QRCodeScannerPage() {
             ) {
                 Box(
                     modifier = Modifier
-                        .size(250.dp)
+                        .size(500.dp)
                         .aspectRatio(1f),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "[ QR Code Scanner View ]",
+                        text = "[ QR Code Scanner View ] \nDie Kamera Ansicht ist noch nicht implementiert!",
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }

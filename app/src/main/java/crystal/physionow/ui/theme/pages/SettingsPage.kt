@@ -19,7 +19,7 @@ fun SettingsPage(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Einstellungen") }
+                title = { Text("Einstellungen (Einstellungen sind noch nicht fertig implementiert)") }
             )
         },
         content = { innerPadding ->
@@ -32,7 +32,9 @@ fun SettingsPage(navController: NavController) {
                 SettingOptionRow(
                     label = "Benachrichtigungen",
                     value = "Aktiviert",
-                    onClick = { navController.navigate("notifications") }
+                    onClick = {  }
+                    //onClick = { navController.navigate("notifications") }
+
                 )
             }
         },
