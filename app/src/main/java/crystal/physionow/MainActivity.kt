@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -15,6 +16,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -75,7 +78,7 @@ fun Greeting(name: String, navController: NavHostController, modifier: Modifier 
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background) // Setze eine Hintergrundfarbe
+            .background(Color(0xFFF5F5DC)) // Setze eine Hintergrundfarbe
             .padding(16.dp)
     ) {
         Column(
@@ -84,6 +87,14 @@ fun Greeting(name: String, navController: NavHostController, modifier: Modifier 
                 .padding(horizontal = 32.dp),  // Padding für den Text
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Logo hinzufügen
+            Image(
+                painter = painterResource(id = R.drawable.physionowlogowithimprint), // Logo-Ressource
+                contentDescription = "PhysioNow Logo",
+                modifier = Modifier.size(380.dp) // Größe des Logos
+            )
+            Spacer(modifier = Modifier.height(50.dp)) // Platz zwischen Logo und Icon
+
             Icon(
                 imageVector = Icons.Filled.Home,
                 contentDescription = "Home Icon",
@@ -108,6 +119,7 @@ fun Greeting(name: String, navController: NavHostController, modifier: Modifier 
         }
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -28,6 +28,7 @@ fun SettingsPage(navController: NavController) {
                     .fillMaxSize()
                     .padding(innerPadding)
                     .padding(16.dp)
+
             ) {
                 SettingOptionRow(
                     label = "Benachrichtigungen",
