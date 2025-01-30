@@ -22,7 +22,7 @@ fun QRCodeScannerPage() {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0xFFF5F5DC)) // Hintergrundfarbe auf Beige setzen
+                    .background(Color(0xFFFFFFFF))
                     .padding(innerPadding),
                 contentAlignment = Alignment.Center
             ) {
@@ -41,7 +41,7 @@ fun QRCodeScannerPage() {
         },
         bottomBar = {
             BottomAppBar(
-                modifier = Modifier.background(Color(0xFFF5F5DC)) // Beigeton auch für die untere Leiste
+                modifier = Modifier.background(Color(0xFFFFFFFF)) // Beigeton auch für die untere Leiste
             ) {
                 Spacer(modifier = Modifier.weight(1f))
                 Button(onClick = { /* Do nothing */ }) {

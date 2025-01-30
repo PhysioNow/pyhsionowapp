@@ -28,7 +28,7 @@ import crystal.physionow.ui.theme.PhysionowTheme
 import crystal.physionow.ui.theme.pages.QRCodeScannerPage
 import crystal.physionow.ui.theme.pages.SettingsPage
 import crystal.physionow.ui.theme.pages.ImpressumPage
-import crystal.physionow.ui.theme.pages.SearchExercisesPage
+import crystal.physionow.ui.theme.pages.ChatWithGeminiPage
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,17 +68,18 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
             ImpressumPage()
         }
         composable("searchExercises") {
-            SearchExercisesPage()  // Deine neue Seite für die Suche nach Übungen
+            ChatWithGeminiPage()  // Deine neue Seite für die Suche nach Übungen
         }
     }
 }
+
 
 @Composable
 fun Greeting(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFFF5F5DC)) // Setze eine Hintergrundfarbe
+            .background(Color(0xFFFFFFFF))
             .padding(16.dp)
     ) {
         Column(
@@ -93,15 +94,8 @@ fun Greeting(name: String, navController: NavHostController, modifier: Modifier 
                 contentDescription = "PhysioNow Logo",
                 modifier = Modifier.size(380.dp) // Größe des Logos
             )
-            Spacer(modifier = Modifier.height(50.dp)) // Platz zwischen Logo und Icon
 
-            Icon(
-                imageVector = Icons.Filled.Home,
-                contentDescription = "Home Icon",
-                modifier = Modifier.size(100.dp),
-                tint = MaterialTheme.colorScheme.secondary // Ansprechendes Icon-Farbdesign
-            )
-            Spacer(modifier = Modifier.height(16.dp))  // Platz zwischen Icon und Text
+            Spacer(modifier = Modifier.height(32.dp))  // Platz zwischen Icon und Text
             Text(
                 text = "Welcome to PhysioNow",
                 style = MaterialTheme.typography.headlineMedium,
