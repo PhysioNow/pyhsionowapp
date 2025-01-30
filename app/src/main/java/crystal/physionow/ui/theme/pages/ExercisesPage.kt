@@ -2,10 +2,17 @@ package crystal.physionow.ui.theme.pages
 
 import android.util.Log
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.*
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import crystal.physionow.api.Content
@@ -15,20 +22,27 @@ import crystal.physionow.api.RetrofitClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.foundation.text.ClickableText
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun ChatWithGeminiPage() {
     var userInput by remember { mutableStateOf("") }
-    var chatResponse by remember { mutableStateOf("Noch keine Antwort") }
+    var chatResponse by remember { mutableStateOf("Du musst erst deine Frage, oder was du trainieren willst eingeben!") }
     var isLoading by remember { mutableStateOf(false) }
+    val scrollState = rememberScrollState()
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Frage Google Gemini", style = MaterialTheme.typography.headlineMedium)
+        Text("Frage Gemini", style = MaterialTheme.typography.headlineMedium)
 
         OutlinedTextField(
             value = userInput,
@@ -49,11 +63,11 @@ fun ChatWithGeminiPage() {
                                 contents = listOf(Content(parts = listOf(Part(text = userInput))))
                             )
                         )
-                        chatResponse = response.candidates.firstOrNull()?.content?.parts?.firstOrNull()?.text ?: "Keine Antwort erhalten"
-
+                        chatResponse = response.candidates.firstOrNull()?.content?.parts?.firstOrNull()?.text
+                            ?: "Beim Antworten ist ein Fehler aufgetreten, versuche es später erneut!"
                     } catch (e: Exception) {
-                        chatResponse = "Fehler: ${e.message}"
-                        Log.e("Gemini API", "Fehler bei der Anfrage", e)
+                        chatResponse = "Error: ${e.message}"
+                        Log.e("Gemini API", "Die Server sind aufgrund von zu vielen Anfragen überlastet!", e)
                     } finally {
                         isLoading = false
                     }
@@ -69,9 +83,70 @@ fun ChatWithGeminiPage() {
         if (isLoading) {
             CircularProgressIndicator()
         } else {
-            Text("Antwort: $chatResponse", modifier = Modifier.padding(16.dp))
+            val annotatedString = formatTextWithBoldAndLinks(chatResponse)
+            ClickableText(
+                text = annotatedString,
+                onClick = { offset ->
+                    annotatedString.getStringAnnotations(tag = "URL", start = offset, end = offset)
+                        .firstOrNull()?.let { annotation ->
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(annotation.item))
+                            context.startActivity(intent)
+                        }
+                },
+                modifier = Modifier.padding(16.dp),
+                overflow = TextOverflow.Ellipsis,
+                maxLines = Int.MAX_VALUE
+            )
         }
     }
+}
+
+fun formatTextWithBoldAndLinks(input: String): AnnotatedString {
+    val boldRegex = "\\*\\*(.*?)\\*\\*".toRegex()
+    val linkRegex = Regex("""https?://\S+""")
+    val annotatedString = AnnotatedString.Builder()
+
+    var lastIndex = 0
+
+    val allMatches = (boldRegex.findAll(input) + linkRegex.findAll(input))
+        .sortedBy { it.range.first }
+
+    allMatches.forEach { match ->
+        annotatedString.append(input.substring(lastIndex, match.range.first))
+
+        when (match) {
+            is MatchResult -> {
+                if (match.value.startsWith("**")) {
+                    annotatedString.withStyle(
+                        style = SpanStyle(fontWeight = FontWeight.Bold)
+                    ) {
+                        append(match.groupValues[1])
+                    }
+                } else {
+                    // URL
+                    annotatedString.pushStringAnnotation(
+                        tag = "URL",
+                        annotation = match.value
+                    )
+                    annotatedString.withStyle(
+                        style = SpanStyle(
+                            color = Color.Blue,
+                            textDecoration = TextDecoration.Underline
+                        )
+                    ) {
+                        append(match.value)
+                    }
+                    annotatedString.pop()
+                }
+            }
+        }
+
+        lastIndex = match.range.last + 1
+    }
+
+    annotatedString.append(input.substring(lastIndex))
+
+    return annotatedString.toAnnotatedString()
 }
 
 @Preview(showBackground = true)
