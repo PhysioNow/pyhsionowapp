@@ -49,7 +49,8 @@ fun ChatWithGeminiPage() {
                                 contents = listOf(Content(parts = listOf(Part(text = userInput))))
                             )
                         )
-                        chatResponse = response.candidates.firstOrNull()?.content ?: "Keine Antwort erhalten"
+                        chatResponse = response.candidates.firstOrNull()?.content?.parts?.firstOrNull()?.text ?: "Keine Antwort erhalten"
+
                     } catch (e: Exception) {
                         chatResponse = "Fehler: ${e.message}"
                         Log.e("Gemini API", "Fehler bei der Anfrage", e)
