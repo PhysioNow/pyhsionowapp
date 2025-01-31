@@ -76,7 +76,6 @@ class LoginPage : ComponentActivity() {
         }
     }
 
-    // Funktionsweise für Login - Überprüfung von SharedPreferences
     private fun login(username: String, password: String, context: Context) {
         val sharedPreferences = context.getSharedPreferences("user_data", Context.MODE_PRIVATE)
         val storedUsername = sharedPreferences.getString("username", null)
@@ -89,7 +88,6 @@ class LoginPage : ComponentActivity() {
         }
     }
 
-    // Funktionsweise für Registrierung - Speichern von Benutzerdaten in SharedPreferences
     private fun register(username: String, password: String, context: Context) {
         if (username.isNotEmpty() && password.isNotEmpty()) {
             val sharedPreferences = context.getSharedPreferences("user_data", Context.MODE_PRIVATE)

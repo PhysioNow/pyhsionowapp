@@ -25,6 +25,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import crystal.physionow.ui.theme.PhysionowTheme
+import crystal.physionow.ui.theme.devpages.DevSettingsPage
 import crystal.physionow.ui.theme.pages.QRCodeScannerPage
 import crystal.physionow.ui.theme.pages.SettingsPage
 import crystal.physionow.ui.theme.pages.ImpressumPage
@@ -68,7 +69,10 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
             ImpressumPage()
         }
         composable("searchExercises") {
-            ChatWithGeminiPage()  // Deine neue Seite für die Suche nach Übungen
+            ChatWithGeminiPage()
+        }
+        composable("devsettings") {
+            DevSettingsPage()
         }
     }
 }
@@ -85,26 +89,25 @@ fun Greeting(name: String, navController: NavHostController, modifier: Modifier 
         Column(
             modifier = Modifier
                 .align(Alignment.Center)
-                .padding(horizontal = 32.dp),  // Padding für den Text
+                .padding(horizontal = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Logo hinzufügen
             Image(
-                painter = painterResource(id = R.drawable.physionowlogowithimprint), // Logo-Ressource
+                painter = painterResource(id = R.drawable.physionowlogowithimprint),
                 contentDescription = "PhysioNow Logo",
-                modifier = Modifier.size(380.dp) // Größe des Logos
+                modifier = Modifier.size(380.dp)
             )
 
-            Spacer(modifier = Modifier.height(32.dp))  // Platz zwischen Icon und Text
+            Spacer(modifier = Modifier.height(32.dp))
             Text(
                 text = "Welcome to PhysioNow",
                 style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.onBackground, // Textfarbe
-                modifier = Modifier.padding(bottom = 8.dp)  // Padding für Text
+                color = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier.padding(bottom = 8.dp)
             )
             Button(
                 onClick = {
-                    navController.navigate("searchExercises")  // Navigiere zur Seite
+                    navController.navigate("searchExercises")
                 },
                 modifier = Modifier.padding(top = 16.dp)
             ) {

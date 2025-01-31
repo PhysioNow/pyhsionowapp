@@ -26,14 +26,29 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.ui.graphics.Color
+import kotlinx.coroutines.delay
 
 @Composable
 fun ChatWithGeminiPage() {
     var userInput by remember { mutableStateOf("") }
     var chatResponse by remember { mutableStateOf("Du musst erst deine Frage, oder was du trainieren willst eingeben!") }
     var isLoading by remember { mutableStateOf(false) }
+    var isButtonEnabled by remember { mutableStateOf(true) }
+    var cooldownTime by remember { mutableStateOf(0) } // Verbleibende Cooldown Zeit
     val scrollState = rememberScrollState()
     val context = LocalContext.current
+
+    // Timer für den Cooldown
+    LaunchedEffect(isButtonEnabled) {
+        if (!isButtonEnabled) {
+            cooldownTime = 10
+            while (cooldownTime > 0) {
+                delay(1000)
+                cooldownTime--
+            }
+            isButtonEnabled = true // Den Button wieder aktivieren, wenn der Cooldown vorbei ist
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -56,6 +71,7 @@ fun ChatWithGeminiPage() {
         Button(
             onClick = {
                 isLoading = true
+                isButtonEnabled = false // Button ausschalten
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
                         val response = RetrofitClient.api.getChatResponse(
@@ -73,9 +89,13 @@ fun ChatWithGeminiPage() {
                     }
                 }
             },
-            enabled = userInput.isNotEmpty()
+            enabled = userInput.isNotEmpty() && isButtonEnabled // Button nur aktivieren, wenn der Cooldown vorbei ist, damit die Google API nicht überlastet wird
         ) {
-            Text("Senden")
+            if (isButtonEnabled) {
+                Text("Senden")
+            } else {
+                Text("Bitte warte für ${cooldownTime} Sekunden") // Hier wird der Cooldown angezeigt
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
