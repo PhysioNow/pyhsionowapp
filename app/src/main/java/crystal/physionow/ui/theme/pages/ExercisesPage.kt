@@ -28,6 +28,7 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.delay
 
+
 @Composable
 fun ChatWithGeminiPage() {
     var userInput by remember { mutableStateOf("") }

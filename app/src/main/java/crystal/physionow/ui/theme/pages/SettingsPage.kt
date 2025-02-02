@@ -35,15 +35,28 @@ fun SettingsPage(navController: NavController) {
                     .padding(innerPadding)
                     .padding(16.dp)
             ) {
+                // Erste Einstellungsoption
                 SettingOptionRow(
                     label = "Benachrichtigungen",
                     value = "Aktiviert",
-                    onClick = { }
+                    onClick = { /* Hier könntest du eine Aktion hinzufügen */ }
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                // Zweite Einstellungsoption (neu hinzugefügt)
+                SettingOptionRow(
+                    label = "Erinnerungen",
+                    value = "Mehr anzeigen",
+                    onClick = { navController.navigate("reminder") }
+                )
 
-                Button(onClick = { showPasswordDialog = true }) {
+                // Größerer Abstand vor dem Entwickler-Button
+                Spacer(modifier = Modifier.height(32.dp))
+
+                // Entwicklereinstellungen-Button weiter unten
+                Button(
+                    onClick = { showPasswordDialog = true },
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
                     Text("Entwicklereinstellungen")
                 }
             }

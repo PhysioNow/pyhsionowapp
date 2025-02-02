@@ -1,5 +1,6 @@
 package crystal.physionow
 
+import ReminderPage
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,10 +17,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -30,6 +35,7 @@ import crystal.physionow.ui.theme.pages.QRCodeScannerPage
 import crystal.physionow.ui.theme.pages.SettingsPage
 import crystal.physionow.ui.theme.pages.ImpressumPage
 import crystal.physionow.ui.theme.pages.ChatWithGeminiPage
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +80,9 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier = Modifi
         composable("devsettings") {
             DevSettingsPage()
         }
+        composable("reminder") {
+            ReminderPage()
+        }
     }
 }
 
@@ -83,7 +92,12 @@ fun Greeting(name: String, navController: NavHostController, modifier: Modifier 
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFFFFFFFF))
+            .background(brush = Brush.verticalGradient(
+                colors = listOf(
+                    MaterialTheme.colorScheme.primary.copy(alpha = 0.0f),
+                    MaterialTheme.colorScheme.secondary.copy(alpha = 0.0f)
+                )
+            ))
             .padding(16.dp)
     ) {
         Column(
@@ -95,27 +109,50 @@ fun Greeting(name: String, navController: NavHostController, modifier: Modifier 
             Image(
                 painter = painterResource(id = R.drawable.physionowlogowithimprint),
                 contentDescription = "PhysioNow Logo",
-                modifier = Modifier.size(380.dp)
+                modifier = Modifier
+                    .size(280.dp)
+                    .padding(bottom = 40.dp)
+                    .graphicsLayer {
+                        alpha = 0.9f
+                        translationY = 20f
+                    }
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
+
             Text(
-                text = "Welcome to PhysioNow",
-                style = MaterialTheme.typography.headlineMedium,
+                text = "Willkommen zurück!",
+                style = MaterialTheme.typography.headlineLarge.copy(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 30.sp,
+                    letterSpacing = 1.5.sp
+                ),
                 color = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier.padding(bottom = 8.dp)
+                modifier = Modifier.padding(bottom = 24.dp)
             )
+
             Button(
                 onClick = {
                     navController.navigate("searchExercises")
                 },
-                modifier = Modifier.padding(top = 16.dp)
+                modifier = Modifier
+                    .padding(top = 24.dp)
+                    .fillMaxWidth()
+                    .height(55.dp),
+                shape = MaterialTheme.shapes.medium,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                )
             ) {
-                Text("Suche nach Übungen")
+                Text("Suche nach Übungen", style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold))
             }
+
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }
+
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)

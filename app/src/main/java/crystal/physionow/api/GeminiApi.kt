@@ -6,6 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Query
 
+
 private const val GEMINI_API_KEY = "AIzaSyAJlc_SsxLpd4UTl3FPNSSMMVyIuMbopBM"
 
 interface GeminiApi {
